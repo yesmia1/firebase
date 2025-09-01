@@ -1,0 +1,33 @@
+name: Run FCM Sender
+
+on:
+  schedule:
+    - cron: "0 * * * *"   # 每小时执行一次（UTC 时间）
+  workflow_dispatch:       # 允许手动运行
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install firebase-admin
+
+      - name: Run Python script and save logs
+        env:
+          FIREBASE_JSON: ${{ secrets.QUICKIMAGE_JSON }}
+        run: |
+          python quick_image.py > output.log 2>&1
+
+      - name: Upload log as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: quick-image-logs
+          path: output.log
