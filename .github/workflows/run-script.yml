@@ -22,7 +22,7 @@ jobs:
 
       - name: Run Python script and save logs
         env:
-          FIREBASE_JSON: ${{ secrets.QUICKIMAGE_JSON }}
+          QUICKIMAGE_JSON: ${{ secrets.QUICKIMAGE_JSON }}
         run: |
           # 先运行脚本并输出到终端，方便调试
           python quick_image.py 2>&1 | tee output.log
