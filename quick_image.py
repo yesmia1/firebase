@@ -23,7 +23,7 @@ message = messaging.Message(
     android=messaging.AndroidConfig(
         priority='high'
     ),
-    topic="imp_news"
+    topic="all_users"
 )
 
 try:
