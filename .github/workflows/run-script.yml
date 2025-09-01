@@ -3,7 +3,7 @@ name: Run FCM Sender
 on:
   schedule:
     - cron: "0 * * * *"   # 每小时执行一次（UTC 时间）
-  workflow_dispatch:       # 允许手动运行
+  workflow_dispatch:       # 允许手动触发
 
 jobs:
   run:
@@ -24,7 +24,12 @@ jobs:
         env:
           FIREBASE_JSON: ${{ secrets.QUICKIMAGE_JSON }}
         run: |
-          python quick_image.py > output.log 2>&1
+          # 先运行脚本并输出到终端，方便调试
+          python quick_image.py 2>&1 | tee output.log
+          # 确保即使脚本报错，也不会中断后续步骤
+          exit_code=${PIPESTATUS[0]}
+          echo "Script exited with code $exit_code"
+          exit $exit_code
 
       - name: Upload log as artifact
         uses: actions/upload-artifact@v4
