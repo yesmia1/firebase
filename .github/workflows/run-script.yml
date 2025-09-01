@@ -2,7 +2,7 @@ name: Run FCM Sender
 
 on:
   schedule:
-    - cron: "*/5 * * * *"   # 每小时执行一次（UTC 时间）
+    - cron: "0 * * * *"   # 每小时执行一次（UTC 时间）
   workflow_dispatch:       # 允许手动触发
 
 jobs:
